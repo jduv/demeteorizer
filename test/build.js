@@ -118,4 +118,18 @@ describe('build', function () {
 
     emitter.emit('error', new Error('failed'));
   });
+
+  it('return clear error message when Meteor not installed', function (done) {
+    var message = [
+      'Meteor not in path.',
+      'Please make sure Meteor is installed properly.'
+    ].join(' ');
+
+    Build({}, function (err) {
+      expect(err.message).to.equal(message);
+      done();
+    });
+
+    emitter.emit('error', { code: 'ENOENT' });
+  });
 });
